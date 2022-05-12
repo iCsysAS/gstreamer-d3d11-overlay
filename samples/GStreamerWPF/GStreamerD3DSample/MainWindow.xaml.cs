@@ -14,7 +14,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11
         private Playback _playback;
 
         private const bool _enableOverlay = true;
-        private const bool _enableSoftwareFallback = true;
+        private const bool _enableSoftwareFallback = false;
 
         public MainWindow()
         {

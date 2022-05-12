@@ -16,6 +16,9 @@ namespace GStreamerD3D.Samples.WPF.D3D11
         private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected override void OnStartup(StartupEventArgs e)
         {
+            // Set up a simple configuration that logs on the console.
+            log4net.Config.BasicConfigurator.Configure();
+
             base.OnStartup(e);
 
             AppDomain currentDomain = AppDomain.CurrentDomain;

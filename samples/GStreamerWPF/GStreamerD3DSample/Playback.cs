@@ -16,7 +16,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11
 		private Pipeline _pipeline;
 		private MainLoop _mainLoop;
         private Thread _mainGlibThread;
-		private Element _uriDecodeBin, _audioConvert, _videoConvert;
+		private Element _uriDecodeBin, _depay, _avdec, _audioConvert, _videoConvert;
 		private Element _audioSink, _videoSink;
         private VideoOverlayAdapter _adapter;
 		private IntPtr _handle;
@@ -25,7 +25,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11
 		private const string _videoDecoder = "d3d11h264dec"; // This decoder will reduce CPU usage significantly
 
 		private bool _enableOverlay;
-		private string _source = "http://samples.mplayerhq.hu/V-codecs/h264/interlaced_crop.mp4";
+		private string _source = "rtsp://10.13.37.243/live_stream";
         
 
 		public Playback(IntPtr hwnd, bool enableOverlay, string gstDebug = "")
@@ -89,7 +89,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11
 			}
 			else
 			{
-				_pipeline.Add(_uriDecodeBin, _videoConvert, _videoSink);
+				_pipeline.Add(_uriDecodeBin, _depay, _avdec, _videoConvert, _videoSink);
 			}
 
 			if (!_videoConvert.Link(_videoSink))
@@ -150,8 +150,15 @@ namespace GStreamerD3D.Samples.WPF.D3D11
 			}
 			else
 			{
-				Log($"It has type '{newPadType}' which is not raw audio or video. Ignoring.", LogLevelFlags.Debug);
-				return;
+				var success = newPad.Link(_depay.GetStaticPad("sink"));
+				Log($"Link: {success}", LogLevelFlags.Message);
+
+				Log($"Linking depay: {_depay.Link(_avdec)}", LogLevelFlags.Message);
+
+				Log($"Linking _avdec: {_avdec.Link(_videoConvert)}", LogLevelFlags.Message);
+
+
+				//				Log($"It has type '{newPadType}' which is not raw audio or video. Ignoring.", LogLevelFlags.Debug);
 			}
 
 			newPadCaps.Dispose();
@@ -242,7 +249,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11
 					_videoSink.Connect("begin-draw", VideoSink_OnBeginDraw);
 				}
 
-				SetPrimaryDecoder(_videoDecoder);
+				//SetPrimaryDecoder(_videoDecoder);
 
 				_videoConvert = ElementFactory.Make("videoconvert", "videoconvert0");
 
@@ -258,8 +265,16 @@ namespace GStreamerD3D.Samples.WPF.D3D11
 					_audioSink = ElementFactory.Make("autoaudiosink", "audioSink");
 				}
 
-				_uriDecodeBin = ElementFactory.Make("uridecodebin", "source");
-				_uriDecodeBin["uri"] = _source;
+				_uriDecodeBin = ElementFactory.Make("rtspsrc", "source");
+				_uriDecodeBin["location"] = _source;
+				_uriDecodeBin["latency"] = 0;
+
+				_depay = ElementFactory.Make("rtph264depay", "depay");
+				Log($"Linking rtspsrc: {_uriDecodeBin.Link(_depay)}", LogLevelFlags.Message);
+
+				_avdec = ElementFactory.Make("avdec_h264", "avdec");
+				//_avdec.PadAdded += OnPadAdded;
+
 				_uriDecodeBin.PadAdded += OnPadAdded;
 			}
 			catch (Exception ex)
