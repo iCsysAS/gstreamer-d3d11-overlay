@@ -12,8 +12,6 @@
 - Change the stream URL in `Playback.cs` to your liking.
 - Start the application and watch the stream getting rendered inside the main window.
 
-usual problem during build :
+### Usual problem during build:
 
-- C1083 : Cannot open include file 'ctype.h' => search in our folder C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\ucrt and check if ctype.h is in the folder then select D3D11Scene and click on Project > Properties > VC++ Directories and add the folder you find to 'Include Directories'. Do the same with Interop.D3DImageEx
-if the folder doesn't exists you may need to install it (Visual Studio Installer > Visual Studio Build Tools > and add SDK Windows 10 (10.0.19041.0), maybe an other version work)
-- LNK1104 : cannot open file ucrtd.lib => search in our folder C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\ucrt\x86 and check if ucrtd.lib is in the folder then select D3D11Scene and click on Project > Properties > VC++ Directories and add the folder you find to 'Library Directories'. Do the same with Interop.D3DImageEx
+- C1083: Cannot open include file 'ctype.h' or LNK1104: cannot open file ucrtd.lib => go in Control Panel > Uninstall a program and uninstall all the Windows Software Development Kit you have. Then install the Windows SDK here : https://developer.microsoft.com/en-US/windows/downloads/windows-sdk/ and relaunch Visual Studio it should work
