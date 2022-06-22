@@ -4,15 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GStreamerD3DSampleCore"
+        xmlns:component="clr-namespace:WPFStream;assembly=WPFStream"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Image x:Name="d3dScene" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <component:StreamComponent x:Name="stream1" Grid.Column="0" Rtps="True"/>
+        <component:StreamComponent x:Name="stream2" Grid.Column="1" Rtps="False"/>
         <TextBox Text="Overlay test"                 
                  VerticalAlignment="Center"
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center"
                  Background="#44000000"
-                 FontSize="30" />
+                 FontSize="30" 
+                 Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

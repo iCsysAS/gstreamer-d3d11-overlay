@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GstSharp" Version="1.20.2.1" />
+    <PackageReference Include="log4net" Version="2.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\D3D11Scene\D3D11Scene.vcxproj" />
+    <ProjectReference Include="..\..\..\src\Interop.D3DImageEx\Interop.D3DImageEx.vcxproj" />
+  </ItemGroup>
+
+</Project>

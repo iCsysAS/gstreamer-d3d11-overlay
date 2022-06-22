@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3D11Scene", "..\..\src\D3D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GStreamerD3DSampleCore", "GStreamerD3DSampleCore\GStreamerD3DSampleCore.csproj", "{E924D2DD-66EA-4780-ACB8-D8FF50A91B95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFStream", "WPFStream\WPFStream.csproj", "{D5477FA3-7089-4A7B-9B36-F155AA98E642}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,18 @@ Global
 		{E924D2DD-66EA-4780-ACB8-D8FF50A91B95}.Release|x64.Build.0 = Release|Any CPU
 		{E924D2DD-66EA-4780-ACB8-D8FF50A91B95}.Release|x86.ActiveCfg = Release|Any CPU
 		{E924D2DD-66EA-4780-ACB8-D8FF50A91B95}.Release|x86.Build.0 = Release|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Debug|x64.Build.0 = Debug|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Debug|x86.Build.0 = Debug|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Release|x64.ActiveCfg = Release|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Release|x64.Build.0 = Release|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Release|x86.ActiveCfg = Release|Any CPU
+		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
