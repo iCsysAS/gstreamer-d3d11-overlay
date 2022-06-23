@@ -14,7 +14,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 		private Pipeline _pipeline;
 		private MainLoop _mainLoop;
 		private Thread _mainGlibThread;
-		private Element _uriDecodeBin, _depay, _avdec, _audioConvert, _videoConvert;
+		private Element _uriDecodeBin, _depay, _h264parse, _avdec, _audioConvert, _videoConvert;
 		private Element _audioSink, _videoSink;
 		private VideoOverlayAdapter _adapter;
 		private IntPtr _handle;
@@ -81,7 +81,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 				}
 			}
 			else {
-				_pipeline.Add(_uriDecodeBin, _depay, _avdec, _videoConvert, _videoSink);
+				_pipeline.Add(_uriDecodeBin, _depay, _h264parse, _avdec, _videoConvert, _videoSink);
 			}
 
 			if (!_videoConvert.Link(_videoSink)) {
@@ -90,10 +90,12 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 			}
 
 			if (!_rtsp) {
-				_uriDecodeBin.Link(_depay);
-				_depay.Link(_avdec);
-				_avdec.Link(_videoConvert);
-				_videoConvert.Link(_videoSink);
+				var res = false;
+				res =_uriDecodeBin.Link(_depay);
+				res = _depay.Link(_h264parse);
+				res = _h264parse.Link(_avdec);
+				res = _avdec.Link(_videoConvert);
+				res = _videoConvert.Link(_videoSink);
 			}
 		}
 
@@ -143,7 +145,8 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 				var success = newPad.Link(_depay.GetStaticPad("sink"));
 				Log($"Link: {success}", LogLevelFlags.Message);
 
-				Log($"Linking depay: {_depay.Link(_avdec)}", LogLevelFlags.Message);
+				Log($"Linking depay: {_depay.Link(_h264parse)}", LogLevelFlags.Message);
+				Log($"Linking h264parse: {_h264parse.Link(_avdec)}", LogLevelFlags.Message);
 
 				Log($"Linking _avdec: {_avdec.Link(_videoConvert)}", LogLevelFlags.Message);
 
@@ -224,6 +227,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 				if (_enableOverlay) {
 					_videoSink["draw-on-shared-texture"] = true;
 					_videoSink.Connect("begin-draw", VideoSink_OnBeginDraw);
+
 				}
 
 				//SetPrimaryDecoder(_videoDecoder);
@@ -247,7 +251,8 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 					_depay = ElementFactory.Make("rtph264depay", "depay");
 					Log($"Linking rtspsrc: {_uriDecodeBin.Link(_depay)}", LogLevelFlags.Message);
 
-					_avdec = ElementFactory.Make("avdec_h264", "avdec");
+					_h264parse = ElementFactory.Make("h264parse", "h264parse");
+					_avdec = ElementFactory.Make("d3d11h264dec", "avdec");
 					//_avdec.PadAdded += OnPadAdded;
 
 					_uriDecodeBin.PadAdded += OnPadAdded;
@@ -262,8 +267,8 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 
 					_depay = ElementFactory.Make("rtph264depay", "depay");
 
-					_avdec = ElementFactory.Make("avdec_h264", "avdec");
-					_avdec["max-threads"] = 12;
+					_h264parse = ElementFactory.Make("h264parse", "h264parse");
+					_avdec = ElementFactory.Make("d3d11h264dec", "avdec");
 				}
 			}
 			catch (Exception ex) {
