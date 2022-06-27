@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>GStreamer.WPF</id>
+    <version>1.0.2</version>
+    <title>GStreamer.WPF</title>
+    <authors>Eatops</authors>
+    <projectUrl>https://github.com/EATOPS/gstreamer-d3d11-overlay</projectUrl>
+    <description>Package for streaming composant in wpf</description>
+	  <dependencies>
+		  <group targetFramework="net6.0">
+			<dependency id="log4net" version="2.0.14"/>
+			<dependency id="GstSharp" version="1.20.2.1"/> 
+		  </group>
+	  </dependencies>
+  </metadata>
+	<files>
+		<file src="bin\Release\net6.0-windows\D3D11Scene.dll" target="lib\net6.0"></file>
+		<file src="bin\Release\net6.0-windows\GStreamerControl.Library.dll" target="lib\net6.0"></file>
+		<file src="bin\Release\net6.0-windows\Interop.D3DImageEx.dll" target="lib\net6.0"></file>
+		<file src="bin\Release\net6.0-windows\Ijwhost.dll" target="lib\net6.0"></file>
+	</files>
+</package>

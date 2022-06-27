@@ -7,9 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interop.D3DImageEx", "..\..
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3D11Scene", "..\..\src\D3D11Scene\D3D11Scene.vcxproj", "{08C66CD6-0686-4F31-BCBA-67ED63262FFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GStreamerD3DSampleCore", "GStreamerD3DSampleCore\GStreamerD3DSampleCore.csproj", "{E924D2DD-66EA-4780-ACB8-D8FF50A91B95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GStreamerControl.Demo.Direct", "GStreamerControl.Demo.Direct\GStreamerControl.Demo.Direct.csproj", "{E924D2DD-66EA-4780-ACB8-D8FF50A91B95}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFStream", "WPFStream\WPFStream.csproj", "{D5477FA3-7089-4A7B-9B36-F155AA98E642}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GStreamerControl.Library", "GStreamerControl.Library\GStreamerControl.Library.csproj", "{D5477FA3-7089-4A7B-9B36-F155AA98E642}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GStreamerControl.Demo.Nuget", "GStreamerControl.Demo.Nuget\GStreamerControl.Demo.Nuget.csproj", "{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,18 @@ Global
 		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Release|x64.Build.0 = Release|Any CPU
 		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Release|x86.ActiveCfg = Release|Any CPU
 		{D5477FA3-7089-4A7B-9B36-F155AA98E642}.Release|x86.Build.0 = Release|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Debug|x64.Build.0 = Debug|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Debug|x86.Build.0 = Debug|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Release|x64.ActiveCfg = Release|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Release|x64.Build.0 = Release|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Release|x86.ActiveCfg = Release|Any CPU
+		{D8D7F345-C2B2-4C68-A50A-54655D30C3FA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

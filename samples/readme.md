@@ -7,10 +7,16 @@
 `nuget.exe push x86_64\GstSharp.1.20.2.1.nupkg -source "Microsoft Visual Studio Offline Packages"`
 
 - Open the `"gstreamer-d3d11-overlay\samples\GStreamerWPF\GStreamerD3DSample.sln"` solution with Visual Studio.
-- Set `GStreamerD3DSampleCore` as Startup project. Select `x64` as build architecture.
+- Set `GStreamerControl.Demo.Direct` as Startup project. Select `x64` as build architecture.
 - Build the solution. The NuGet restore operation should succeed using both local source and `nuget.org`. No build error at this point.
 - Change the stream URL in `Playback.cs` to your liking.
 - Start the application and watch the stream getting rendered inside the main window.
+
+## Create Nuget Package
+
+- Build GStreamerControl.Library in release mode
+- Create the package nuget with the following command-line : `nuget.exe pack .\GStreamer.WPF.nuspec` you can change the version by editing GStreamer.WPF.nuspec (you must be in GStreamerControl.Library directory, and you may need to copy past the nuget.exe from \samples in this directory) 
+- You can push the package to your offline package source with the following command `nuget.exe push .\GStreamer.WPF.1.0.1 -source "Microsoft Visual Studio Offline Packages"`
 
 ### Usual problem during build:
 
