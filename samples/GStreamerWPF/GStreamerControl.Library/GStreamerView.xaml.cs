@@ -44,11 +44,17 @@ namespace GStreamerControl.Library {
             streamComponent.Reload();
         }
 
-        public static readonly DependencyProperty PipelineProperty = DependencyProperty.Register("Pipeline", typeof(string), typeof(GStreamerView));
+        public static readonly DependencyProperty PipelineStringProperty = DependencyProperty.Register("PipelineString", typeof(string), typeof(GStreamerView), new PropertyMetadata("", new PropertyChangedCallback(PipelineStringPropertyChanged)));
 
-        public string Pipeline {
-            get { return (string)GetValue(PipelineProperty); }
-            set { SetValue(PipelineProperty, value); }
+        public string PipelineString {
+            get { return (string)GetValue(PipelineStringProperty); }
+            set { SetValue(PipelineStringProperty, value); }
+        }
+
+        public static void PipelineStringPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            GStreamerView streamComponent = (GStreamerView)d;
+            streamComponent.Reload();
         }
 
         public GStreamerView() {
@@ -93,7 +99,7 @@ namespace GStreamerControl.Library {
             _d3DImageEx.SetBackBuffer(D3DResourceType.IDirect3DSurface9, backBuffer, _enableSoftwareFallback);
             _d3DImageEx.Unlock();
 
-            _playback = new Playback(IntPtr.Zero, Rtsp);
+            _playback = new Playback(IntPtr.Zero, Rtsp, PipelineString);
             _playback.OnDrawSignalReceived += VideoSink_OnBeginDraw;
 
             CompositionTarget.Rendering += CompositionTarget_Rendering;

@@ -39,7 +39,7 @@ namespace GStreamerD3DSampleCore
 
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
-            //stream1.Dispose();
+            stream1.Dispose();
             stream2.Dispose();
             Dispose();
             System.Windows.Application.Current.Shutdown();
@@ -51,7 +51,7 @@ namespace GStreamerD3DSampleCore
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            grid.Children.Clear();
+            //grid.Children.Clear();
         }
     }
 }

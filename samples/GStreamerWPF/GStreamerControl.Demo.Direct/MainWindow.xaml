@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <component:GStreamerView x:Name="stream1" Grid.Column="0" Rtsp="True" Enabled="True"/>
-        <component:GStreamerView x:Name="stream2" Grid.Column="1" Rtsp="False" Enabled="True"/>
+        <component:GStreamerView x:Name="stream2" Grid.Column="1" Rtsp="True" Enabled="True" PipelineString="udpsrc port=5600 ! application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96  ! rtph264depay ! avdec_h264 max-threads=12 ! d3d11videosink name=videosink"/>
         <TextBox Text="Overlay test"                 
                  VerticalAlignment="Center"
                  HorizontalContentAlignment="Center"

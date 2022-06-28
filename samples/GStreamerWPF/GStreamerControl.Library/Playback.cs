@@ -24,20 +24,31 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 
 		private bool _enableOverlay;
 		private bool _rtsp;
+		private string _pipelineString;
 		private string _source = "rtsp://10.13.37.243/live_stream";
 
+		public static string udpPipelineString = "udpsrc port=5600 ! application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96  ! rtph264depay ! avdec_h264 max-threads=12 ! d3d11videosink name=videosink";
 
-		public Playback(IntPtr hwnd, bool rtsp = true, string gstDebug = "") {
+		public Playback(IntPtr hwnd, bool rtsp = true, string pipeline = "", string gstDebug = "") {
 			_handle = hwnd;
 			_enableOverlay = true;
 			_rtsp = rtsp;
+			_pipelineString = pipeline;
 
 			if (!String.IsNullOrEmpty(gstDebug)) {
 				Environment.SetEnvironmentVariable("GST_DEBUG", gstDebug);
 			}
 
 			InitGst();
-			CreatePipeline();
+
+			if (String.IsNullOrEmpty(_pipelineString))
+            {
+				CreatePipeline();
+            }
+            else
+            {
+				CreatePipelineFromString();
+			}
 
 			var ret = _pipeline.SetState(State.Playing);
 
@@ -94,6 +105,31 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 				_depay.Link(_avdec);
 				_avdec.Link(_videoConvert);
 				_videoConvert.Link(_videoSink);
+			}
+		}
+
+		private void CreatePipelineFromString()
+		{
+
+			var pipeline = Parse.Launch(_pipelineString);
+			_pipeline = pipeline as Pipeline;
+
+			foreach (Element el in _pipeline.IterateElements())
+			{
+				if (el.Name == "videosink")
+				{
+					el["draw-on-shared-texture"] = true;
+					el.Connect("begin-draw", VideoSink_OnBeginDraw);
+				}
+			}
+			Console.WriteLine(_pipeline);
+
+			_pipeline.Bus.Message += OnBusMessage;
+			_pipeline.AutoFlushBus = true;
+
+			if (!_enableOverlay)
+			{
+				_pipeline.Bus.SyncMessage += OnBusSyncMessage;
 			}
 		}
 
@@ -358,8 +394,11 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 				_videoSink?.Disconnect("begin-draw", VideoSink_OnBeginDraw);
 
 				if (_pipeline != null) {
-					_pipeline.Bus.Message -= OnBusMessage;
-					_pipeline.Bus.SyncMessage -= OnBusSyncMessage;
+					if (_pipeline.Bus != null)
+                    {
+						_pipeline.Bus.Message -= OnBusMessage;
+						_pipeline.Bus.SyncMessage -= OnBusSyncMessage;
+                    }
 				}
 
 				if (_uriDecodeBin != null) {

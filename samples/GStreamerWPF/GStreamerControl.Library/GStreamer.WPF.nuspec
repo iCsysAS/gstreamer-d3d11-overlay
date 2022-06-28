@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>GStreamer.WPF</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <title>GStreamer.WPF</title>
     <authors>Eatops</authors>
     <projectUrl>https://github.com/EATOPS/gstreamer-d3d11-overlay</projectUrl>
