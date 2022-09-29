@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Diagnostics;
+using GStreamerD3D.Samples.WPF.D3D11;
+using System.Windows.Interop;
 
 namespace GStreamerD3DSampleCore
 {
@@ -10,31 +12,15 @@ namespace GStreamerD3DSampleCore
     /// </summary>
     public partial class MainWindow : Window, IDisposable
     {
+        private Playback _playback;
 
-        private Stopwatch timer = new Stopwatch();
-        private long lastTime = 0;
-        private double average = 0;
-        private int countMeasure = 0;
         public MainWindow()
         {
             InitializeComponent();
 
-            Loaded += Window_Loaded;
-
-            timer.Start();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e) {
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
-
-        }
-
-        private void CompositionTarget_Rendering(object sender, EventArgs e) {
-            long newTime = timer.ElapsedMilliseconds;
-            average = (average * countMeasure + newTime - lastTime) / (countMeasure + 1);
-            countMeasure++;
-            Console.WriteLine($"elapsed {newTime - lastTime}ms; average {average}ms");
-            lastTime = newTime;
+            _playback = new Playback(IntPtr.Zero);
+            _playback.OnDrawSignalReceived += stream1.BeginDraw;
+            _playback.OnDrawSignalReceived += stream2.BeginDraw;
         }
 
         protected override void OnClosed(EventArgs e) {
@@ -46,7 +32,7 @@ namespace GStreamerD3DSampleCore
         }
 
         public void Dispose() {
-            timer.Stop();
+            _playback.Cleanup();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

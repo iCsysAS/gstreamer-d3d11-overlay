@@ -386,7 +386,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 			}
 		}
 
-		internal void Cleanup() {
+		public void Cleanup() {
 			try {
 				Log("Cleaning up pipeline..", LogLevelFlags.Info);
 
