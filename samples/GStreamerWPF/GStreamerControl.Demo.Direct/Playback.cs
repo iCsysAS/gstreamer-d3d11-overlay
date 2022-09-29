@@ -25,7 +25,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 		private bool _enableOverlay;
 		private bool _rtsp;
 		private string _pipelineString;
-		private string _source = "rtsp://10.13.37.243/live_stream";
+		private string _source = "rtsp://10.13.37.240/live_stream";
 
 		public static string udpPipelineString = "udpsrc port=5600 ! application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96  ! rtph264depay ! avdec_h264 max-threads=12 ! d3d11videosink name=videosink";
 

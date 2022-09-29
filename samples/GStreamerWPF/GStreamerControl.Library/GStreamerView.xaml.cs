@@ -1,6 +1,5 @@
 ﻿using D3D11Scene;
 using Gst;
-using GStreamerD3D.Samples.WPF.D3D11;
 using System;
 using System.Windows;
 using System.Windows.Controls;

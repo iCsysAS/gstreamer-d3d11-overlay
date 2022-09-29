@@ -2,10 +2,10 @@
 <package >
   <metadata>
     <id>GStreamer.WPF</id>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <title>GStreamer.WPF</title>
-    <authors>Eatops</authors>
-    <projectUrl>https://github.com/EATOPS/gstreamer-d3d11-overlay</projectUrl>
+    <authors>berglie and iCsys AS</authors>
+    <projectUrl>https://github.com/iCsysAS/gstreamer-d3d11-overlay</projectUrl>
     <description>Package for streaming composant in wpf</description>
 	  <dependencies>
 		  <group targetFramework="net6.0">
@@ -16,7 +16,6 @@
   </metadata>
 	<files>
 		<file src="bin\Release\net6.0-windows\D3D11Scene.dll" target="lib\net6.0"></file>
-		<file src="bin\Release\net6.0-windows\GStreamerControl.Library.dll" target="lib\net6.0"></file>
 		<file src="bin\Release\net6.0-windows\Interop.D3DImageEx.dll" target="lib\net6.0"></file>
 		<file src="bin\Release\net6.0-windows\Ijwhost.dll" target="lib\net6.0"></file>
 	</files>
