@@ -1,27 +1,11 @@
-# gstreamer-d3d11-overlay
-Using GStreamer with Direct3D11/Direct3D9 interop layer in .Net
+# WPF GStreamer component
 
-There is no direct support in WPF to display UI elements over a D3D component due to the airspace issue. This project will tackle this issue by implementing a Direct3D11/Direct3D9 interop layer and by using the D3DImageEx class. 
+This repo was forked from [gstreamer-d3d11-overlay](https://github.com/berglie/gstreamer-d3d11-overlay), and tweaked to build a reusable WPF component that can be used by a `d3d11videosink` to render video inside a WPF application. 
 
-The D3DImageEx class will create a D3D11Texture which is created with the `D3D11_RESOURCE_MISC_SHARED`. This texture will be used for the SetBackBuffer method and later used for the d3d11videosink element in the gstreamer code. 
-Sample project
-
-Sample project
------------------------------
-[GStreamer](https://gstreamer.freedesktop.org/documentation/?gi-language=c) is a framework used for creating streaming media applications. In the sample project included in this repository we are creating a player which can play RTSP streams in WPF with a textbox overlay. 
-
-Using the NuGet package
------------------------------
-Download the NuGet package from https://www.nuget.org/packages/gstreamer-d3d11-overlay/
-
-Using the native C++ projects
-------------------------------
-**What You Need**
-
- - [Visual Studio 2015](https://www.visualstudio.com/features/wpf-vs)
- - [DirectX SDK](http://www.microsoft.com/en-us/download/details.aspx?id=6812)
- - [Windows SDK](https://dev.windows.com/en-us/downloads/windows-10-sdk)
-
-Credits
--------------------
-The Direct3D11/Direct3D9 interop layer is based on the project http://jmorrill.hjtcentral.com/Home/tabid/428/EntryId/437/Direct3D-10-11-Direct2D-in-WPF.aspx by Jeremiah Morrill. 
+## Usage 
+By building and using the nuget package in samples/GStreamerControl.Library, you can add a GStreamerView component to your application and then connect the videosink to the View like in Playback.cs in the sample:
+```
+    sink["draw-on-shared-texture"] = true;
+    sink.Connect("begin-draw", VideoSink_OnBeginDraw);
+```
+See the sample application in `samples/GStreamerWPF/GStreamerControl.Demo.Direct` for details.
