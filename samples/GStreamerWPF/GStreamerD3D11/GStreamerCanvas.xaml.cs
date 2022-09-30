@@ -63,8 +63,11 @@ namespace GStreamerD3D11 {
         }
 
         public void BeginDraw(Element sink, GLib.SignalArgs args) {
-            var sharedHandle = _D3D11Scene.GetSharedHandle();
-            _ = sink.Emit("draw", sharedHandle, (UInt32)2, (UInt64)0, (UInt64)0);
+            if (_D3D11Scene != null)
+            {
+                var sharedHandle = _D3D11Scene.GetSharedHandle();
+                _ = sink.Emit("draw", sharedHandle, (UInt32)2, (UInt64)0, (UInt64)0);
+            }
         }
 
         private void CompositionTarget_Rendering(object sender, EventArgs e) {
