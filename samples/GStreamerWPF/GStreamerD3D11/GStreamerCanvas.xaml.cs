@@ -6,13 +6,13 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace GStreamerControl.Library {
-    public partial class GStreamerView : UserControl, IDisposable {
+namespace GStreamerD3D11 {
+    public partial class GStreamerCanvas : UserControl, IDisposable {
 
         private D3DImageEx _D3DImageEx;
         private D3D11TestScene _D3D11Scene;
 
-        public static DependencyProperty EnabledProperty = DependencyProperty.Register("Enabled", typeof(bool), typeof(GStreamerView), new PropertyMetadata(false, new PropertyChangedCallback(EnabledPropertyChanged)));
+        public static DependencyProperty EnabledProperty = DependencyProperty.Register("Enabled", typeof(bool), typeof(GStreamerCanvas), new PropertyMetadata(false, new PropertyChangedCallback(EnabledPropertyChanged)));
 
         public bool Enabled {
             get { return (bool)GetValue(EnabledProperty); }
@@ -21,11 +21,11 @@ namespace GStreamerControl.Library {
 
         public static void EnabledPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            GStreamerView streamComponent = (GStreamerView)d;
+            GStreamerCanvas streamComponent = (GStreamerCanvas)d;
             streamComponent.Reload();
         }
 
-        public GStreamerView() {
+        public GStreamerCanvas() {
             InitializeComponent();
             Loaded += Control_Loaded;
             Unloaded += Control_Unloaded;

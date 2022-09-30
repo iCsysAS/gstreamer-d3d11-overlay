@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:component="clr-namespace:GStreamerControl.Library;assembly=GStreamerControl.Library"
+        xmlns:component="clr-namespace:GStreamerD3D11;assembly=GStreamerD3D11"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="grid" >
@@ -12,8 +12,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <component:GStreamerView x:Name="stream1" Grid.Column="0" Enabled="True"/>
-        <component:GStreamerView x:Name="stream2" Grid.Column="1" Enabled="True"/>
+        <component:GStreamerCanvas x:Name="stream1" Grid.Column="0" Enabled="True"/>
+        <component:GStreamerCanvas x:Name="stream2" Grid.Column="1" Enabled="True"/>
         <TextBox Text="Overlay test"                 
                  VerticalAlignment="Center"
                  HorizontalContentAlignment="Center"

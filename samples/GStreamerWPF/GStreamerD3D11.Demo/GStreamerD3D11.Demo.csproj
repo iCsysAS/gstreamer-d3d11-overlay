@@ -12,6 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GStreamerControl.Library\GStreamerControl.Library.csproj" />
+    <ProjectReference Include="..\GStreamerD3D11\GStreamerD3D11.csproj" />
   </ItemGroup>
 </Project>

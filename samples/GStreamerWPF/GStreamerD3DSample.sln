@@ -7,9 +7,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Interop.D3DImageEx", "..\..
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "D3D11Scene", "..\..\src\D3D11Scene\D3D11Scene.vcxproj", "{08C66CD6-0686-4F31-BCBA-67ED63262FFE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GStreamerControl.Demo.Direct", "GStreamerControl.Demo.Direct\GStreamerControl.Demo.Direct.csproj", "{E924D2DD-66EA-4780-ACB8-D8FF50A91B95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GStreamerD3D11.Demo", "GStreamerD3D11.Demo\GStreamerD3D11.Demo.csproj", "{E924D2DD-66EA-4780-ACB8-D8FF50A91B95}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GStreamerControl.Library", "GStreamerControl.Library\GStreamerControl.Library.csproj", "{D5477FA3-7089-4A7B-9B36-F155AA98E642}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GStreamerD3D11", "GStreamerD3D11\GStreamerD3D11.csproj", "{D5477FA3-7089-4A7B-9B36-F155AA98E642}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
