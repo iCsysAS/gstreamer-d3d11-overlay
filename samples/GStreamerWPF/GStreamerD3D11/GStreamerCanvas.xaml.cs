@@ -12,6 +12,7 @@ namespace GStreamerD3D11 {
         private D3DImageEx _D3DImageEx;
         private D3D11TestScene _D3D11Scene;
 
+
         public static DependencyProperty EnabledProperty = DependencyProperty.Register("Enabled", typeof(bool), typeof(GStreamerCanvas), new PropertyMetadata(false, new PropertyChangedCallback(EnabledPropertyChanged)));
 
         public bool Enabled {
@@ -29,6 +30,13 @@ namespace GStreamerD3D11 {
             InitializeComponent();
             Loaded += Control_Loaded;
             Unloaded += Control_Unloaded;
+            Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+        }
+
+        private void SystemEvents_SessionSwitch(object sender, Microsoft.Win32.SessionSwitchEventArgs e)
+        {
+            Dispose();
+            Reload();
         }
 
         private void Control_Unloaded(object sender, RoutedEventArgs e)
