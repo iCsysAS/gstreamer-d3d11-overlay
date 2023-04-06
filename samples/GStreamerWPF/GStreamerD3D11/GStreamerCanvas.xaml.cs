@@ -6,8 +6,10 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace GStreamerD3D11 {
-    public partial class GStreamerCanvas : UserControl, IDisposable {
+namespace GStreamerD3D11
+{
+    public partial class GStreamerCanvas : UserControl, IDisposable
+    {
 
         private D3DImageEx _D3DImageEx;
         private D3D11TestScene _D3D11Scene;
@@ -15,7 +17,8 @@ namespace GStreamerD3D11 {
 
         public static DependencyProperty EnabledProperty = DependencyProperty.Register("Enabled", typeof(bool), typeof(GStreamerCanvas), new PropertyMetadata(false, new PropertyChangedCallback(EnabledPropertyChanged)));
 
-        public bool Enabled {
+        public bool Enabled
+        {
             get { return (bool)GetValue(EnabledProperty); }
             set { SetValue(EnabledProperty, value); }
         }
@@ -26,7 +29,8 @@ namespace GStreamerD3D11 {
             streamComponent.Reload();
         }
 
-        public GStreamerCanvas() {
+        public GStreamerCanvas()
+        {
             InitializeComponent();
             Loaded += Control_Loaded;
             Unloaded += Control_Unloaded;
@@ -35,20 +39,29 @@ namespace GStreamerD3D11 {
 
         private void SystemEvents_SessionSwitch(object sender, Microsoft.Win32.SessionSwitchEventArgs e)
         {
-            Dispose();
-            Reload();
+            if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionUnlock ||
+                e.Reason == Microsoft.Win32.SessionSwitchReason.SessionLogon)
+            {
+                Reload();
+            }
+            else
+            {
+                DisposeScene();
+            }
         }
 
         private void Control_Unloaded(object sender, RoutedEventArgs e)
         {
-            Dispose();
+            DisposeScene();
         }
 
-        private void Control_Loaded(object sender, RoutedEventArgs e) {
+        private void Control_Loaded(object sender, RoutedEventArgs e)
+        {
             Reload();
         }
 
-        private void Reload() {
+        private void Reload()
+        {
             if (!Enabled)
             {
                 return;
@@ -70,7 +83,8 @@ namespace GStreamerD3D11 {
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
-        public void BeginDraw(Element sink, GLib.SignalArgs args) {
+        public void BeginDraw(Element sink, GLib.SignalArgs args)
+        {
             if (_D3D11Scene != null)
             {
                 var sharedHandle = _D3D11Scene.GetSharedHandle();
@@ -78,14 +92,17 @@ namespace GStreamerD3D11 {
             }
         }
 
-        private void CompositionTarget_Rendering(object sender, EventArgs e) {
+        private void CompositionTarget_Rendering(object sender, EventArgs e)
+        {
             InvalidateD3DImage();
         }
 
-        private void InvalidateD3DImage() {
+        private void InvalidateD3DImage()
+        {
             _D3DImageEx.Lock();
 
-            _D3DImageEx.AddDirtyRect(new Int32Rect() {
+            _D3DImageEx.AddDirtyRect(new Int32Rect()
+            {
                 X = 0,
                 Y = 0,
                 Height = _D3DImageEx.PixelHeight,
@@ -96,7 +113,14 @@ namespace GStreamerD3D11 {
         }
 
 
-        public void Dispose() {
+        public void Dispose()
+        {
+            Microsoft.Win32.SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
+            DisposeScene();
+        }
+
+        private void DisposeScene()
+        {
             if (_D3DImageEx != null)
             {
                 _D3D11Scene.Dispose();
