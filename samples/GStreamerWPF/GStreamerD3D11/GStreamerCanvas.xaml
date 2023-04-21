@@ -11,5 +11,7 @@
     </UserControl.Resources>
     <Grid>
         <Image x:Name="d3dScene" Visibility="{Binding Enabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:GStreamerCanvas}, Converter={StaticResource booleanToVisibilityConverter}}"/>
+        <TextBlock Visibility="Collapsed" x:Name="txtError"/>
+        
     </Grid>
 </UserControl>
