@@ -25,15 +25,16 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 		private bool _enableOverlay;
 		private bool _rtsp;
 		private string _pipelineString;
-		private string _source = "rtsp://10.13.37.240/live_stream";
+		private string _source = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4";
 
-		public static string udpPipelineString = "udpsrc port=5600 ! application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96  ! rtph264depay ! avdec_h264 max-threads=12 ! d3d11videosink name=videosink";
+        //public static string udpPipelineString = "udpsrc port=5003 ! application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96  ! rtph264depay ! avdec_h264 max-threads=12 ! d3d11videosink name=videosink";
+        public static string udpPipelineString = "videotestsrc ! video/x-raw,width=1280,height=720 ! d3d11videosink name=videosink";
 
-		public Playback(IntPtr hwnd, bool rtsp = true, string pipeline = "", string gstDebug = "") {
+        public Playback(IntPtr hwnd, bool rtsp = false, string pipeline = "", string gstDebug = "") {
 			_handle = hwnd;
 			_enableOverlay = true;
 			_rtsp = rtsp;
-			_pipelineString = pipeline;
+			_pipelineString = udpPipelineString;
 
 			if (!String.IsNullOrEmpty(gstDebug)) {
 				Environment.SetEnvironmentVariable("GST_DEBUG", gstDebug);

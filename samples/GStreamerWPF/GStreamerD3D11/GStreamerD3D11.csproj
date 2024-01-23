@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
+    <TargetFramework>net8.0-windows8.0</TargetFramework>
+    <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GstSharp" Version="1.20.2.1" />
+    <PackageReference Include="GstSharp" Version="1.22.5" />
   </ItemGroup>
 
   <ItemGroup>
