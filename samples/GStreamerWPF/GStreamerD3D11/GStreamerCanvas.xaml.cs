@@ -11,7 +11,6 @@ namespace GStreamerD3D11
 {
     public partial class GStreamerCanvas : UserControl, IDisposable
     {
-
         private D3DImageEx _D3DImageEx;
         private D3D11TestScene _D3D11Scene;
         private object _lockObject = new object();
@@ -37,13 +36,6 @@ namespace GStreamerD3D11
             Loaded += Control_Loaded;
             Unloaded += Control_Unloaded;
             Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
-            Microsoft.Win32.SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
-        }
-
-        private void SystemEvents_DisplaySettingsChanged(object? sender, EventArgs e)
-        {
-            DisposeScene();
-            Reload();
         }
 
         private void SystemEvents_SessionSwitch(object sender, Microsoft.Win32.SessionSwitchEventArgs e)
@@ -143,7 +135,6 @@ namespace GStreamerD3D11
         public void Dispose()
         {
             Microsoft.Win32.SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
-            Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= SystemEvents_DisplaySettingsChanged;
             DisposeScene();
         }
 
@@ -153,7 +144,15 @@ namespace GStreamerD3D11
             {
                 if (_D3DImageEx != null)
                 {
-                    _D3D11Scene.Dispose();
+                    try
+                    {
+                        _D3D11Scene.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        //log error to windows eventlog
+                        System.Diagnostics.EventLog.WriteEntry("Application", ex.ToString(), System.Diagnostics.EventLogEntryType.Warning);
+                    }
                     _D3D11Scene = null;
                     _D3DImageEx = null;
                 }
