@@ -20,13 +20,13 @@ namespace GStreamerD3DSampleCore
 
             _playback = new Playback(IntPtr.Zero);
             _playback.OnDrawSignalReceived += stream1.BeginDraw;
-            _playback.OnDrawSignalReceived += stream2.BeginDraw;
+            //_playback.OnDrawSignalReceived += stream2.BeginDraw;
         }
 
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
             stream1.Dispose();
-            stream2.Dispose();
+            //stream2.Dispose();
             Dispose();
             System.Windows.Application.Current.Shutdown();
         }

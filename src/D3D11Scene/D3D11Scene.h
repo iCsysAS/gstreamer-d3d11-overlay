@@ -22,6 +22,7 @@ namespace D3D11Scene {
 		HANDLE sharedHandle;
 		IntPtr GetSharedHandle();
 		IntPtr GetRenderTarget();
+		HRESULT CheckDeviceStatus();
 		void Release();
 	private:
 		ID3D11Device* _device;

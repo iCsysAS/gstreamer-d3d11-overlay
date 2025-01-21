@@ -13,7 +13,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <component:GStreamerCanvas x:Name="stream1" Grid.Column="0" Enabled="True"/>
-        <component:GStreamerCanvas x:Name="stream2" Grid.Column="1" Enabled="True"/>
+        <!--<component:GStreamerCanvas x:Name="stream2" Grid.Column="1" Enabled="True"/>-->
         <TextBox Text="Overlay test"                 
                  VerticalAlignment="Center"
                  HorizontalContentAlignment="Center"
@@ -21,6 +21,6 @@
                  Background="#44000000"
                  FontSize="30" 
                  Grid.ColumnSpan="2"/>
-        <Button Click="Button_Click" Grid.Column="2"/>
+        <!--<Button Click="Button_Click" Grid.Column="2"/>-->
     </Grid>
 </Window>

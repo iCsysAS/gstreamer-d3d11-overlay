@@ -23,14 +23,14 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 		private const string _videoDecoder = "d3d11h264dec"; // This decoder will reduce CPU usage significantly
 
 		private bool _enableOverlay;
-		private bool _rtsp;
+		private bool _rtsp ;
 		private string _pipelineString;
-		private string _source = "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4";
+		private string _source = "rtsp://10.10.0.189/live_stream";
 
         //public static string udpPipelineString = "udpsrc port=5003 ! application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264, payload=(int)96  ! rtph264depay ! avdec_h264 max-threads=12 ! d3d11videosink name=videosink";
         public static string udpPipelineString = "videotestsrc ! video/x-raw,width=1280,height=720 ! d3d11videosink name=videosink";
 
-        public Playback(IntPtr hwnd, bool rtsp = false, string pipeline = "", string gstDebug = "") {
+        public Playback(IntPtr hwnd, bool rtsp = true, string pipeline = "", string gstDebug = "") {
 			_handle = hwnd;
 			_enableOverlay = true;
 			_rtsp = rtsp;
@@ -42,16 +42,17 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 
 			InitGst();
 
-			if (String.IsNullOrEmpty(_pipelineString))
-            {
-				CreatePipeline();
-            }
-            else
-            {
-				CreatePipelineFromString();
-			}
+            //if (String.IsNullOrEmpty(_pipelineString))
+            //         {
+            //	CreatePipeline();
+            //         }
+            //         else
+            //         {
+            //	CreatePipelineFromString();
+            //}
+            CreatePipeline();
 
-			var ret = _pipeline.SetState(State.Playing);
+            var ret = _pipeline.SetState(State.Playing);
 
 			if (ret == StateChangeReturn.Failure) {
 				Log("Unable to set the pipeline to the playing state.", LogLevelFlags.Error);
@@ -82,26 +83,26 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 			}
 
 			CreateElements();
+			_pipeline.Add(_uriDecodeBin);
 
+            //if (_enableAudio) {
+            //	_pipeline.Add(_uriDecodeBin, _audioConvert, _videoConvert, _audioSink, _videoSink);
 
-			if (_enableAudio) {
-				_pipeline.Add(_uriDecodeBin, _audioConvert, _videoConvert, _audioSink, _videoSink);
+            //	if (!_audioConvert.Link(_audioSink)) {
+            //		Log("Audio sink could not be linked", LogLevelFlags.Error);
+            //		return;
+            //	}
+            //}
+            //else {
+            //	_pipeline.Add(_uriDecodeBin, _depay, _avdec, _videoConvert, _videoSink);
+            //}
 
-				if (!_audioConvert.Link(_audioSink)) {
-					Log("Audio sink could not be linked", LogLevelFlags.Error);
-					return;
-				}
-			}
-			else {
-				_pipeline.Add(_uriDecodeBin, _depay, _avdec, _videoConvert, _videoSink);
-			}
+            //if (!_videoConvert.Link(_videoSink)) {
+            //	Log("Video sink could not be linked", LogLevelFlags.FlagFatal);
+            //	return;
+            //}
 
-			if (!_videoConvert.Link(_videoSink)) {
-				Log("Video sink could not be linked", LogLevelFlags.FlagFatal);
-				return;
-			}
-
-			if (!_rtsp) {
+            if (!_rtsp) {
 				_uriDecodeBin.Link(_depay);
 				_depay.Link(_avdec);
 				_avdec.Link(_videoConvert);
@@ -177,12 +178,26 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 				sinkPad.Dispose();
 			}
 			else {
-				var success = newPad.Link(_depay.GetStaticPad("sink"));
+
+                _depay = ElementFactory.Make("rtph264depay", "depay");
+                //Log($"Linking rtspsrc: {_uriDecodeBin.Link(_depay)}", LogLevelFlags.Message);
+
+                _avdec = ElementFactory.Make("avdec_h264", "avdec");
+                _videoConvert = ElementFactory.Make("videoconvert");
+                _pipeline.Add(_depay, _avdec, _videoConvert);
+
+                Log($"Linking _videoConvert: {_videoConvert.Link(_videoSink)}", LogLevelFlags.Message);
+                Log($"Linking _avdec: {_avdec.Link(_videoConvert)}", LogLevelFlags.Message);
+                Log($"Linking depay: {_depay.Link(_avdec)}", LogLevelFlags.Message);
+
+                
+
+                var success = newPad.Link(_depay.GetStaticPad("sink"));
 				Log($"Link: {success}", LogLevelFlags.Message);
 
-				Log($"Linking depay: {_depay.Link(_avdec)}", LogLevelFlags.Message);
+				//Log($"Linking depay: {_depay.Link(_avdec)}", LogLevelFlags.Message);
 
-				Log($"Linking _avdec: {_avdec.Link(_videoConvert)}", LogLevelFlags.Message);
+				//Log($"Linking _avdec: {_avdec.Link(_videoConvert)}", LogLevelFlags.Message);
 
 
 				//				Log($"It has type '{newPadType}' which is not raw audio or video. Ignoring.", LogLevelFlags.Debug);
@@ -258,6 +273,8 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 			try {
 				_videoSink = ElementFactory.Make("d3d11videosink", "d3d11videosink0");
 
+				_pipeline.Add(_videoSink);
+
 				if (_enableOverlay) {
 					_videoSink["draw-on-shared-texture"] = true;
 					_videoSink.Connect("begin-draw", VideoSink_OnBeginDraw);
@@ -265,7 +282,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 
 				//SetPrimaryDecoder(_videoDecoder);
 
-				_videoConvert = ElementFactory.Make("videoconvert", "videoconvert0");
+				//_videoConvert = ElementFactory.Make("videoconvert", "videoconvert0");
 
 				if (_videoSink == null) {
 					Log($"Could not locate Direct3D11", LogLevelFlags.Error);
@@ -281,10 +298,7 @@ namespace GStreamerD3D.Samples.WPF.D3D11 {
 					_uriDecodeBin["location"] = _source;
 					_uriDecodeBin["latency"] = 0;
 
-					_depay = ElementFactory.Make("rtph264depay", "depay");
-					Log($"Linking rtspsrc: {_uriDecodeBin.Link(_depay)}", LogLevelFlags.Message);
-
-					_avdec = ElementFactory.Make("avdec_h264", "avdec");
+					
 					//_avdec.PadAdded += OnPadAdded;
 
 					_uriDecodeBin.PadAdded += OnPadAdded;

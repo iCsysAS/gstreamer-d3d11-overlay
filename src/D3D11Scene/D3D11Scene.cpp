@@ -23,6 +23,23 @@ namespace D3D11Scene {
 		return IntPtr(_sharedTexture);
 	}	
 
+	HRESULT D3D11TestScene::CheckDeviceStatus()
+	{
+		// Check if the device is removed
+		HRESULT reason = _device->GetDeviceRemovedReason();
+		if (reason != S_OK)
+		{
+			printf("Device lost, reason: 0x%x\n", reason);
+
+			// Release all existing resources
+			Release();
+
+			return reason;
+		}
+
+		return S_OK;
+	}
+
 	HRESULT D3D11TestScene::PrepareSharedTexture(unsigned int width, unsigned int height, DXGI_FORMAT format, UINT miscFlags)
 	{
 		D3D11_TEXTURE2D_DESC textureDesc = { 0 };

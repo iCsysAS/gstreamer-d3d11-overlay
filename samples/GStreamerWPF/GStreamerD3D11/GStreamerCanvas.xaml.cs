@@ -35,23 +35,10 @@ namespace GStreamerD3D11
             InitializeComponent();
             Loaded += Control_Loaded;
             Unloaded += Control_Unloaded;
-            Microsoft.Win32.SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+
         }
 
-        private void SystemEvents_SessionSwitch(object sender, Microsoft.Win32.SessionSwitchEventArgs e)
-        {
-            if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionUnlock ||
-                e.Reason == Microsoft.Win32.SessionSwitchReason.SessionLogon)
-            {
-                Console.WriteLine("SystemEvents_SessionSwitch Reload");
-                Reload();
-            }
-            else
-            {
-                Console.WriteLine("SystemEvents_SessionSwitch dispose");
-                DisposeScene();
-            }
-        }
+      
 
         private void Control_Unloaded(object sender, RoutedEventArgs e)
         {
@@ -110,6 +97,15 @@ namespace GStreamerD3D11
 
         private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
+            if (_D3D11Scene != null)
+            {
+                var hr = _D3D11Scene.CheckDeviceStatus();
+                if (hr != 0) // Device lost or issue detected
+                {
+                    Reload();
+                    return;
+                }
+            }
             InvalidateD3DImage();
         }
 
@@ -134,7 +130,6 @@ namespace GStreamerD3D11
 
         public void Dispose()
         {
-            Microsoft.Win32.SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
             DisposeScene();
         }
 
@@ -146,7 +141,7 @@ namespace GStreamerD3D11
                 {
                     try
                     {
-                        _D3D11Scene.Dispose();
+                        _D3D11Scene?.Dispose();
                     }
                     catch (Exception ex)
                     {
